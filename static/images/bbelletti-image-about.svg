@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="519.09" height="691.747" viewBox="0 0 519.09 691.747">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Unione_1" data-name="Unione 1" d="M0,463.7q0-3.817.142-7.6H0V0H519.09V456.1h-.141q.141,3.787.141,7.6c0,125.948-116.2,228.048-259.546,228.048S0,589.646,0,463.7Z" transform="translate(0 94.176)" fill="red"/>
+    </clipPath>
+    <pattern id="pattern" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 375 692">
+      <image width="375" height="692" xlink:href="bbelletti-image-about-image.png"/>
+    </pattern>
+  </defs>
+  <g id="bbelletti-image-about" transform="translate(-593 -128.642)">
+    <path id="Tracciato_18" data-name="Tracciato 18" d="M259.268,0c143.19,0,259.268,116.078,259.268,259.268S402.457,518.535,259.268,518.535,0,402.457,0,259.268,116.078,0,259.268,0Z" transform="translate(593 301.299)" fill="#fad904"/>
+    <g id="Gruppo_di_maschere_1" data-name="Gruppo di maschere 1" transform="translate(593 34.466)" clip-path="url(#clip-path)">
+      <rect id="a5723bdcd11bd1956453f8b9d34282ef" width="374.407" height="691.38" transform="translate(52.718 94.176)" fill="url(#pattern)"/>
+      <image id="Immagine_2" data-name="Immagine 2" width="386.096" height="691.38" transform="translate(84.694 94.176)" xlink:href="bbelletti-image-about-image2.png"/>
+    </g>
+  </g>
+</svg>

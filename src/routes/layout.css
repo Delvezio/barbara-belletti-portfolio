@@ -1,0 +1,138 @@
+@import 'tailwindcss';
+
+/* Axiforma self-hosted */
+@font-face {
+	font-family: 'Axiforma';
+	src:
+		url('/fonts/axiforma/Axiforma-Thin.woff2') format('woff2'),
+		url('/fonts/axiforma/Axiforma-Thin.woff') format('woff');
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Axiforma';
+	src:
+		url('/fonts/axiforma/Axiforma-Light.woff2') format('woff2'),
+		url('/fonts/axiforma/Axiforma-Light.woff') format('woff');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Axiforma';
+	src:
+		url('/fonts/axiforma/Axiforma-Regular.woff2') format('woff2'),
+		url('/fonts/axiforma/Axiforma-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Axiforma';
+	src:
+		url('/fonts/axiforma/Axiforma-Medium.woff2') format('woff2'),
+		url('/fonts/axiforma/Axiforma-Medium.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Axiforma';
+	src:
+		url('/fonts/axiforma/Axiforma-SemiBold.woff2') format('woff2'),
+		url('/fonts/axiforma/Axiforma-SemiBold.woff') format('woff');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Axiforma';
+	src:
+		url('/fonts/axiforma/Axiforma-Bold.woff2') format('woff2'),
+		url('/fonts/axiforma/Axiforma-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Axiforma';
+	src:
+		url('/fonts/axiforma/Axiforma-ExtraBold.woff2') format('woff2'),
+		url('/fonts/axiforma/Axiforma-ExtraBold.woff') format('woff');
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Axiforma';
+	src:
+		url('/fonts/axiforma/Axiforma-Black.woff2') format('woff2'),
+		url('/fonts/axiforma/Axiforma-Black.woff') format('woff');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@theme {
+	/* Font di default */
+	--font-sans: var(--font-axiforma), system-ui, sans-serif;
+
+	/* Palette richiesta */
+	--color-neon-pink-50: #ffe5f0;
+	--color-neon-pink-100: #ffcce0;
+	--color-neon-pink-200: #ff99c2;
+	--color-neon-pink-300: #ff66a3;
+	--color-neon-pink-400: #ff3385;
+	--color-neon-pink-500: #ff3385;
+	--color-neon-pink-600: #cc0052;
+	--color-neon-pink-700: #99003d;
+	--color-neon-pink-800: #660029;
+	--color-neon-pink-900: #330014;
+	--color-neon-pink-950: #24000e;
+
+	--color-bright-gold-50: #fffce5;
+	--color-bright-gold-100: #fff8cc;
+	--color-bright-gold-200: #fff199;
+	--color-bright-gold-300: #ffeb66;
+	--color-bright-gold-400: #ffe433;
+	--color-bright-gold-500: #fad904;
+	--color-bright-gold-600: #ccb100;
+	--color-bright-gold-700: #998500;
+	--color-bright-gold-800: #665800;
+	--color-bright-gold-900: #332c00;
+	--color-bright-gold-950: #241f00;
+
+	--color-graphite: #333333;
+	--color-silver: #c1c1c1;
+	--color-white: #ffffff;
+
+	/* Scala tipografica fluida */
+	--text-fluid-2xl: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+	--text-fluid-3xl: clamp(1.8rem, 1.4rem + 1.4vw, 3rem);
+	--text-fluid-4xl: clamp(2.25rem, 1.4rem + 2.8vw, 3.5rem);
+	--text-fluid-6xl: clamp(3rem, 1.6rem + 4.2vw, 5rem);
+	--text-fluid-8xl: clamp(3.75rem, 1.8rem + 6vw, 6.5rem);
+}
+
+/* Applica font sans globale (Tailwind v4 legge --font-sans) */
+:global(html) {
+	font-family: var(--font-sans);
+	scroll-behavior: smooth;
+}
+
+/* Variabile + default */
+:root {
+	--font-axiforma: 'Axiforma';
+}
+:global(html, body) {
+	font-family: var(--font-axiforma), system-ui, sans-serif;
+}
+
+h4 {
+	font-size: 14px;
+	letter-spacing: 3px;
+	font-weight: bold;
+	color: var(--color-neon-pink-500);
+	text-transform: uppercase;
+}

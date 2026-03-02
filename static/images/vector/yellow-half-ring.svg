@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="271" height="520" viewBox="0 0 271 520">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rettangolo_104" data-name="Rettangolo 104" width="271" height="520" transform="translate(1649 549)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="yellow-half-ring" transform="translate(-1649 -549)">
+    <g id="Gruppo_di_maschere_10" data-name="Gruppo di maschere 10" clip-path="url(#clip-path)">
+      <path id="Tracciato_51" data-name="Tracciato 51" d="M626.786,177.117A128.741,128.741,0,1,1,444.719,359.184l-91.3,91.3a257.063,257.063,0,0,0,182.34,75.526c142.414,0,257.863-115.449,257.863-257.866A257.056,257.056,0,0,0,718.09,85.812Z" transform="translate(2487.749 619.676) rotate(135)" fill="#fad904"/>
+    </g>
+  </g>
+</svg>
