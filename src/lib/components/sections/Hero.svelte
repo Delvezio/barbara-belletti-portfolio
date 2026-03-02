@@ -5,7 +5,7 @@
   import { onMount, onDestroy } from 'svelte';
 
   // ✅ CONFIG (puoi modificare qui)
-  const words = ['Grafica', 'Editoria', 'Identità'] as const;
+  const words = ['grafica', 'editoria', 'identità'] as const;
 
   // tempi (ms)
   const startDelay = 650;        // (2) delay all'avvio animazione
@@ -16,8 +16,8 @@
   const holdBetweenLoops = 7000; // pausa dopo "Identità" prima di ripartire
   const caretPulseMs = 2000;      // (4) timing caret
 
-  const phrasePrefix = 'Progetto ';
-  const baseWord = 'Progetto'; // (1) prima scrive Progetto, poi rimane
+  const phrasePrefix = 'progetto ';
+  const baseWord = 'progetto'; // (1) prima scrive Progetto, poi rimane
 
   let wordIndex = 0;
   let charIndex = 0;

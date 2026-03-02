@@ -3,15 +3,14 @@
   import Container from '$lib/components/ui/Container.svelte';
   import SectionTitle from '$lib/components/ui/SectionTitle.svelte';
   import type { StrapiEntity, ProjectDTO } from '$lib/services/strapi';
+  import { strapiMediaUrl } from '$lib/services/strapi';
+
   export let onSelect: (p: StrapiEntity<ProjectDTO>) => void = () => {};
-
-function selectProject(p: StrapiEntity<ProjectDTO>) {
-  onSelect(p);
-}
-
   export let projects: Array<StrapiEntity<ProjectDTO>> = [];
 
-  const mediaUrl = (url?: string | null) => (url ? `${import.meta.env.VITE_STRAPI_URL}${url}` : null);
+  function selectProject(p: StrapiEntity<ProjectDTO>) {
+    onSelect(p);
+  }
 </script>
 
 <Section id="portfolio">
@@ -24,7 +23,7 @@ function selectProject(p: StrapiEntity<ProjectDTO>) {
   <Container padClass="px-6 md:px-12">
     <div class="max-w-340 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 lg:pt-8">
       {#each projects as p (p.id)}
-        {@const cover = mediaUrl(p.cover?.url)}
+        {@const cover = strapiMediaUrl(p.cover?.url)}
 
         <article class="group relative aspect-3/2 overflow-hidden rounded-3xl bg-silver/20 cursor-pointer">
             <!-- tutta la cover cliccabile -->

@@ -2,7 +2,13 @@ const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 
 export function strapiMediaUrl(path?: string | null) {
   if (!path) return null;
+
+  // se Strapi ritorna già un URL assoluto (es. CDN), non toccarlo
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+
   const base = import.meta.env.VITE_STRAPI_URL;
+  if (!base) return path;
+
   return `${base}${path}`;
 }
 
