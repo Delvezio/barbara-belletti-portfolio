@@ -92,7 +92,7 @@
         </div>
     </ParallaxItem>
   <!-- Pannello giallo: larghezza = container SENZA padding -->
-  <Container padClass="px-6 md:px-12" className="z-10" >
+  <Container padClass="px-0 md:px-12" className="z-10" >
     <div bind:this={rootEl}  class="relative isolate max-w-340 mx-auto bg-bright-gold-500 rounded-4xl lg:rounded-[3rem] overflow-hidden">
       <div class="-z-1 absolute -top-18 -right-18 w-80 h-auto pointer-events-none">
         <img src="/images/vector/arco.svg" alt="arco decorativo" class="w-full h-auto" />

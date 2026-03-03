@@ -26,7 +26,7 @@
         />
     </div>
     </ParallaxItem>
-  <Container padClass="px-6 md:px-12">
+  <Container padClass="px-0 md:px-12">
     <div class="relative isolate max-w-340 mx-auto bg-graphite rounded-3xl lg:rounded-[3rem] overflow-hidden shadow-xl">
       <div class="relative z-10 px-8 md:px-12 lg:px-20 py-8 md:py-12 lg:py-20">
         <p class="text-sm tracking-widest font-bold text-neon-pink-500 uppercase">
