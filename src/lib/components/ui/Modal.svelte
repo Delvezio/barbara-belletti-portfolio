@@ -148,7 +148,7 @@
     >
       <div class="h-full overflow-y-auto modal-scroll">
 
-        <div class="sticky top-0 bg-white/90 backdrop-blur ">
+        <div class="sticky top-10 bg-white/90 backdrop-blur ">
           <div class={`${headerPadClass} h-16 flex items-center justify-between`}>
             <h2 id={titleId} class="text-base font-bold text-graphite">
               <slot name="title" />
