@@ -17,7 +17,7 @@
   duration={520}
   overlayDuration={420}
   offsetY={40}
-  headerPadClass="w-full px-6 md:px-12 lg:px-20 xl:px-36"
+  headerPadClass="pt-16 sm:pt-0 w-full px-6 md:px-12 lg:px-20 xl:px-36"
   contentPadClass="w-full px-6 md:px-12 lg:px-20 xl:px-36 pt-8"
 >
       <!-- ✅ slot title: figlio diretto -->

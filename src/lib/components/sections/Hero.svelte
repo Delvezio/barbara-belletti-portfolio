@@ -160,11 +160,11 @@
   <!-- Centro verticale -->
   <div class="flex-1 flex items-center justify-center">
     <div class="text-center flex flex-col gap-2">
-      <p class="text-lg md:text-2xl tracking-wide font-bold text-graphite">
+      <p class="text-xl md:text-2xl tracking-wide font-bold text-graphite">
         sono <span class="text-neon-pink-500">barbara belletti</span>
       </p>
 
-      <h1 class="text-fluid-3xl sm:text-fluid-6xl lg:text-fluid-8xl font-black tracking-tight text-graphite leading-tight">
+      <h1 class="text-fluid-4xl sm:text-fluid-6xl lg:text-fluid-8xl font-black tracking-tight text-graphite leading-tight">
         <span class="inline-flex items-baseline gap-1">
           <span>{displayed}</span>
           <span class="caret bg-neon-pink-500 motion-safe:caret-anim" aria-hidden="true"></span>

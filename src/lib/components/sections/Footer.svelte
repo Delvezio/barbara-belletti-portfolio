@@ -43,10 +43,10 @@
                 </div>
 
                 <div class="mt-3 flex flex-wrap gap-4 text-sm font-semibold ">
-                    <a class="text-graphite/30 hover:text-graphite/70 transition" href="https://www.linkedin.com" target="_blank" rel="noreferrer">
+                    <a class="text-graphite/30 hover:text-graphite/70 transition" href="https://www.linkedin.com/in/bbelletti/" target="_blank" rel="noreferrer">
                     LinkedIn
                     </a>
-                    <a class="text-graphite/30 hover:text-graphite/70 transition" href="https://www.behance.net" target="_blank" rel="noreferrer">
+                    <a class="text-graphite/30 hover:text-graphite/70 transition" href="https://www.behance.net/BBwip" target="_blank" rel="noreferrer">
                     Behance
                     </a>
                 </div>

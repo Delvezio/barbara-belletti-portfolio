@@ -9,46 +9,38 @@
   import ProjectModal from '$lib/components/sections/ProjectModal.svelte';
   import Testimonials from '$lib/components/sections/Testimonials.svelte';
   import Footer from '$lib/components/sections/Footer.svelte';
-  import { onMount } from 'svelte';
-  import { fetchAbout, fetchProjects, type AboutDTO, type ProjectDTO, type StrapiEntity } from '$lib/services/strapi';
-  import { fetchTestimonials, type TestimonialDTO } from '$lib/services/strapi';
 
-  let about: AboutDTO | null = null;
-  let projects: Array<StrapiEntity<ProjectDTO>> = [];
-  let testimonials: Array<TestimonialDTO> = [];
-  let error: string | null = null;
+  import type { PageData } from './$types';
+  import type { ProjectDTO, StrapiEntity } from '$lib/services/strapi';
 
-  let projectOpen = false;
-    let selectedProject: StrapiEntity<ProjectDTO> | null = null;
+  let { data } = $props<{ data: PageData }>();
 
-  onMount(async () => {
-    try {
-      about = (await fetchAbout()).data;
-      projects = (await fetchProjects(50)).data;
-      testimonials = (await fetchTestimonials(50)).data;
-    } catch (e) {
-      error = e instanceof Error ? e.message : 'Errore fetch';
-    }
+  let projectOpen = $state(false);
+  let selectedProject = $state<StrapiEntity<ProjectDTO> | null>(null);
+
+  $effect(() => {
+    if (!projectOpen) selectedProject = null;
   });
-
-  $: if (!projectOpen) selectedProject = null;
-
 </script>
 
 <div id="top"></div>
 <Header />
 <Hero />
-{#if error}
-  <p class="px-6 py-6 text-neon-pink-500 font-semibold">Errore: {error}</p>
+
+{#if data.loadError}
+  <p class="px-6 py-6 text-neon-pink-500 font-semibold">Errore: {data.loadError}</p>
 {/if}
-{#if about}
-  <About {about} />
+
+{#if data.about}
+  <About about={data.about} />
 {/if}
+
 <Services />
 <Method />
 <ContactCta />
+
 <Portfolio
-  {projects}
+  projects={data.projects}
   onSelect={(p) => {
     selectedProject = p;
     projectOpen = true;
@@ -57,6 +49,6 @@
 
 <ProjectModal bind:open={projectOpen} project={selectedProject} />
 
-<Testimonials items={testimonials} />
+<Testimonials items={data.testimonials} />
 
 <Footer />

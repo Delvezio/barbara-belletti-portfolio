@@ -29,7 +29,7 @@
         <img
           src="/images/bbelletti-image-about-image.png"
           alt="Barbara Belletti"
-          class="w-full h-full max-w-62.5 sm:max-w-100 object-cover"
+          class="mx-auto w-full h-full max-w-62.5 sm:max-w-100 object-cover"
           loading="lazy"
           decoding="async"
         />
