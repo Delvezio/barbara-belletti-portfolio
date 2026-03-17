@@ -1,31 +1,45 @@
 const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 
-export function strapiMediaUrl(path?: string | null) {
-  if (!path) return null;
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  // se Strapi ritorna già un URL assoluto (es. CDN), non toccarlo
-  if (path.startsWith('http://') || path.startsWith('https://')) return path;
-
-  const base = import.meta.env.VITE_STRAPI_URL;
-  if (!base) return path;
-
-  return `${base}${path}`;
-}
-
-async function getJSON<T>(path: string): Promise<T> {
+async function getJSON<T>(path: string, retries = 3): Promise<T> {
   if (!STRAPI_URL) throw new Error('Missing VITE_STRAPI_URL in .env');
 
   const url = `${STRAPI_URL}${path}`;
-  const res = await fetch(url);
+  let lastError: unknown;
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(`Strapi error ${res.status} ${res.statusText} — ${url} — ${body}`);
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+
+    try {
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => '');
+        throw new Error(`Strapi error ${res.status} ${res.statusText} — ${url} — ${body}`);
+      }
+
+      return (await res.json()) as T;
+    } catch (error) {
+      lastError = error;
+
+      if (attempt < retries) {
+        await sleep(attempt * 1200);
+        continue;
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
-  return (await res.json()) as T;
+  throw lastError instanceof Error ? lastError : new Error('Failed to fetch Strapi data');
 }
-
 export type StrapiSingle<T> = { data: T; meta: unknown };
 export type StrapiCollection<T> = { data: T[]; meta: unknown };
 
@@ -92,4 +106,19 @@ export function fetchTestimonials(pageSize = 50) {
   const qs = new URLSearchParams();
   qs.set('pagination[pageSize]', String(pageSize));
   return getJSON<StrapiCollection<TestimonialDTO>>(`/api/testimonials?${qs.toString()}`);
+}
+
+export function strapiMediaUrl(url?: string | null) {
+  if (!url) return null;
+
+  // URL già completo
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+
+  // normalizza eventuali slash doppi
+  const base = STRAPI_URL?.replace(/\/$/, '') ?? '';
+  const path = url.startsWith('/') ? url : `/${url}`;
+
+  return `${base}${path}`;
 }
