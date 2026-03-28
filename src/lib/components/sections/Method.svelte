@@ -8,21 +8,21 @@
       n: '1.',
       title: 'Colloquio conoscitivo',
       desc: 'Ci incontriamo (di persona o online) per capire esigenze, obiettivi e valori del brand o del progetto.',
-      img: '/images/vector/colloquio-conoscitivo.svg',
+      img: '/images/vector/colloquio-conoscitivo.png',
       alt: 'Illustrazione colloquio conoscitivo'
     },
     {
       n: '2.',
       title: 'Presentazione preventivo',
       desc: 'Dopo il briefing, preparo un preventivo dettagliato, modulato su tempi, attività e tipo di fornitura.',
-      img: '/images/vector/presentazione-preventivo.svg',
+      img: '/images/vector/presentazione-preventivo.png',
       alt: 'Illustrazione presentazione preventivo'
     },
     {
       n: '3.',
       title: 'Proposta grafica',
       desc: 'Realizzo e presento una proposta visiva basata sulle informazioni raccolte, da cui partire per lo sviluppo finale.',
-      img: '/images/vector/Proposta-grafica.svg',
+      img: '/images/vector/Proposta-grafica.png',
       alt: 'Illustrazione proposta grafica'
     }
   ] as const;

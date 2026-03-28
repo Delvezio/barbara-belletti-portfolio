@@ -1,20 +1,13 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
   import Container from '$lib/components/ui/Container.svelte';
   import Button from '$lib/components/ui/Button.svelte';
-
-  const links = [
-    { href: '#about', label: 'Chi sono' },
-    { href: '#services', label: 'I miei servizi' },
-    { href: '#method', label: 'Metodo' },
-    { href: '#portfolio', label: 'Portfolio' },
-    { href: '#testimonials', label: 'Recensioni' }
-  ] as const;
 </script>
 
 <header class="mt-4 md:mt-8 z-50 bg-white/80 backdrop-blur supports-backdrop-filter:bg-white/60">
   <Container className="h-16 flex items-center justify-between">
     <!-- Logo minimal -->
-    <a href="/" class="inline-flex items-center">
+    <a href={resolve('/')} class="inline-flex items-center">
         <img
             src="/images/bbelletti-icon-logo.svg"
             alt="Barbara Belletti"
@@ -25,9 +18,11 @@
 
     <!-- Nav desktop -->
     <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-graphite/80">
-      {#each links as l}
-        <a class="hover:text-neon-pink-500 duration-300 ease-in" href={l.href}>{l.label}</a>
-      {/each}
+      <a class="hover:text-neon-pink-500 duration-300 ease-in" href="#about">Chi sono</a>
+      <a class="hover:text-neon-pink-500 duration-300 ease-in" href="#services">I miei servizi</a>
+      <a class="hover:text-neon-pink-500 duration-300 ease-in" href="#method">Metodo</a>
+      <a class="hover:text-neon-pink-500 duration-300 ease-in" href="#portfolio">Portfolio</a>
+      <a class="hover:text-neon-pink-500 duration-300 ease-in" href="#testimonials">Recensioni</a>
     </nav>
 
     <!-- CTA -->

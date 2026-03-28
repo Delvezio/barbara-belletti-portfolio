@@ -4,24 +4,6 @@
 @font-face {
 	font-family: 'Axiforma';
 	src:
-		url('/fonts/axiforma/Axiforma-Thin.woff2') format('woff2'),
-		url('/fonts/axiforma/Axiforma-Thin.woff') format('woff');
-	font-weight: 100;
-	font-style: normal;
-	font-display: swap;
-}
-@font-face {
-	font-family: 'Axiforma';
-	src:
-		url('/fonts/axiforma/Axiforma-Light.woff2') format('woff2'),
-		url('/fonts/axiforma/Axiforma-Light.woff') format('woff');
-	font-weight: 300;
-	font-style: normal;
-	font-display: swap;
-}
-@font-face {
-	font-family: 'Axiforma';
-	src:
 		url('/fonts/axiforma/Axiforma-Regular.woff2') format('woff2'),
 		url('/fonts/axiforma/Axiforma-Regular.woff') format('woff');
 	font-weight: 400;
@@ -52,15 +34,6 @@
 		url('/fonts/axiforma/Axiforma-Bold.woff2') format('woff2'),
 		url('/fonts/axiforma/Axiforma-Bold.woff') format('woff');
 	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
-@font-face {
-	font-family: 'Axiforma';
-	src:
-		url('/fonts/axiforma/Axiforma-ExtraBold.woff2') format('woff2'),
-		url('/fonts/axiforma/Axiforma-ExtraBold.woff') format('woff');
-	font-weight: 800;
 	font-style: normal;
 	font-display: swap;
 }
