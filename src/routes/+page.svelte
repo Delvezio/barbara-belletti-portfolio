@@ -16,9 +16,6 @@
 
   import type { PageData } from './$types';
   import {
-    fetchAbout,
-    fetchProjects,
-    fetchTestimonials,
     type AboutDTO,
     type ProjectDTO,
     type StrapiEntity,
@@ -38,14 +35,6 @@
   let retrying = $state(false);
   let showPortfolioPrompt = $state(false);
 
-  type AboutResult = { key: 'about'; value: Awaited<ReturnType<typeof fetchAbout>> };
-  type ProjectsResult = { key: 'projects'; value: Awaited<ReturnType<typeof fetchProjects>> };
-  type TestimonialsResult = {
-    key: 'testimonials';
-    value: Awaited<ReturnType<typeof fetchTestimonials>>;
-  };
-  type CmsTaskResult = AboutResult | ProjectsResult | TestimonialsResult;
-
   $effect(() => {
     if (!projectOpen) selectedProject = null;
   });
@@ -62,6 +51,13 @@
     return () => window.clearTimeout(timer);
   }
 
+  type CmsPayload = {
+    about: AboutDTO | null;
+    projects: Array<StrapiEntity<ProjectDTO>>;
+    testimonials: TestimonialDTO[];
+    ok: boolean;
+  };
+
   async function loadCmsContent({ force = false } = {}) {
     if (retrying && !force) return;
 
@@ -74,49 +70,43 @@
     const maxAttempts = 3;
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-      const tasks: Promise<CmsTaskResult>[] = [];
+      try {
+        const res = await fetch('/api/cms', {
+          headers: {
+            Accept: 'application/json'
+          }
+        });
 
-      if (aboutState !== 'ready') {
-        tasks.push(fetchAbout().then((value) => ({ key: 'about' as const, value })));
-      }
+        if (!res.ok) {
+          throw new Error(`CMS proxy error ${res.status}`);
+        }
 
-      if (projectsState !== 'ready') {
-        tasks.push(fetchProjects(50).then((value) => ({ key: 'projects' as const, value })));
-      }
+        const payload = (await res.json()) as CmsPayload;
 
-      if (testimonialsState !== 'ready') {
-        tasks.push(fetchTestimonials(50).then((value) => ({ key: 'testimonials' as const, value })));
-      }
-
-      if (!tasks.length) break;
-
-      const results = await Promise.allSettled(tasks);
-
-      for (const result of results) {
-        if (result.status !== 'fulfilled') continue;
-
-        if (result.value.key === 'about') {
-          about = result.value.value.data as AboutDTO;
+        if (payload.about) {
+          about = payload.about;
           aboutState = 'ready';
         }
 
-        if (result.value.key === 'projects') {
-          projects = result.value.value.data as Array<StrapiEntity<ProjectDTO>>;
+        if (payload.projects.length) {
+          projects = payload.projects;
           projectsState = 'ready';
         }
 
-        if (result.value.key === 'testimonials') {
-          testimonials = result.value.value.data as TestimonialDTO[];
+        if (payload.testimonials.length) {
+          testimonials = payload.testimonials;
           testimonialsState = 'ready';
         }
-      }
 
-      if (aboutState === 'ready' && projectsState === 'ready' && testimonialsState === 'ready') {
-        break;
+        if (payload.ok) {
+          break;
+        }
+      } catch {
+        // Retry a couple of times before showing the CTA fallbacks.
       }
 
       if (attempt < maxAttempts) {
-        await sleep(1500 * attempt);
+        await sleep(1200 * attempt);
       }
     }
 
