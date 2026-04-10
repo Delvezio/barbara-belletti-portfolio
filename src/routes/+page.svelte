@@ -36,6 +36,7 @@
   let projectsState = $state<'loading' | 'ready' | 'error'>('loading');
   let testimonialsState = $state<'loading' | 'ready' | 'error'>('loading');
   let retrying = $state(false);
+  let showPortfolioPrompt = $state(false);
 
   type AboutResult = { key: 'about'; value: Awaited<ReturnType<typeof fetchAbout>> };
   type ProjectsResult = { key: 'projects'; value: Awaited<ReturnType<typeof fetchProjects>> };
@@ -50,6 +51,16 @@
   });
 
   const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  function startPortfolioPromptTimer() {
+    const timer = window.setTimeout(() => {
+      if (projectsState !== 'ready') {
+        showPortfolioPrompt = true;
+      }
+    }, 2500);
+
+    return () => window.clearTimeout(timer);
+  }
 
   async function loadCmsContent({ force = false } = {}) {
     if (retrying && !force) return;
@@ -117,7 +128,12 @@
   }
 
   onMount(() => {
+    const stopTimer = startPortfolioPromptTimer();
     void loadCmsContent();
+
+    return () => {
+      stopTimer();
+    };
   });
 </script>
 
@@ -130,23 +146,11 @@
 {:else}
   <Section id="about">
     <Container>
-      <div class="rounded-3xl border border-silver/40 bg-white px-6 py-8 lg:px-10">
-        <SectionTitle overtitle="Chi sono" title="Sto caricando questa sezione" />
-        <p class="mt-4 max-w-2xl text-lg text-graphite/75">
-          {aboutState === 'error'
-            ? 'I contenuti da Strapi non sono ancora arrivati. Puoi riprovare senza ricaricare tutta la pagina.'
-            : 'La struttura del sito e pronta: i contenuti editoriali arrivano in pochi istanti.'}
-        </p>
-
-        {#if aboutState === 'error'}
-          <button
-            type="button"
-            class="mt-6 rounded-full bg-neon-pink-500 px-5 py-3 font-bold text-white transition hover:opacity-90"
-            onclick={() => loadCmsContent({ force: true })}
-          >
-            Riprova a caricare i contenuti
-          </button>
-        {/if}
+      <div class="flex min-h-90 items-center justify-center rounded-3xl bg-white/60">
+        <div
+          class="h-10 w-10 animate-spin rounded-full border-4 border-silver/40 border-t-neon-pink-500"
+          aria-label="Caricamento"
+        ></div>
       </div>
     </Container>
   </Section>
@@ -170,21 +174,23 @@
       <SectionTitle overtitle="Portfolio" title="Una selezione dei miei lavori" align="center" />
     </Container>
     <Container padClass="px-6 md:px-12">
-      <div class="mx-auto max-w-340 rounded-3xl border border-silver/40 bg-white px-6 py-8 text-center">
-        <p class="text-lg text-graphite/75">
-          {projectsState === 'error'
-            ? 'I progetti non sono ancora disponibili. Puoi riprovare senza ricaricare il sito.'
-            : 'Sto recuperando il portfolio dal CMS.'}
-        </p>
-
-        {#if projectsState === 'error'}
+      <div class="mx-auto max-w-340 rounded-3xl border border-silver/40 bg-white px-6 py-10 text-center">
+        {#if showPortfolioPrompt || projectsState === 'error'}
+          <p class="text-lg font-medium text-graphite">Vuoi vedere il mio portfolio?</p>
           <button
             type="button"
-            class="mt-6 rounded-full bg-neon-pink-500 px-5 py-3 font-bold text-white transition hover:opacity-90"
+            class="mt-6 rounded-full bg-neon-pink-500 px-6 py-3 font-bold text-white transition hover:opacity-90"
             onclick={() => loadCmsContent({ force: true })}
           >
-            Riprova a caricare i progetti
+            Guarda ora
           </button>
+        {:else}
+          <div class="flex min-h-48 items-center justify-center">
+            <div
+              class="h-10 w-10 animate-spin rounded-full border-4 border-silver/40 border-t-neon-pink-500"
+              aria-label="Caricamento"
+            ></div>
+          </div>
         {/if}
       </div>
     </Container>
@@ -198,28 +204,11 @@
 {:else}
   <Section id="testimonials" className="relative isolate my-0">
     <Container padClass="px-0 md:px-12" className="z-10">
-      <div class="mx-auto max-w-340 rounded-4xl bg-bright-gold-500 px-8 py-10 text-center lg:rounded-[3rem] lg:px-20 lg:py-16">
-        <SectionTitle
-          overtitle="Dicono di me"
-          title="Le opinioni dei miei clienti"
-          customclass="max-w-2xl mx-auto"
-          align="center"
-        />
-        <p class="mt-6 text-lg text-graphite/75">
-          {testimonialsState === 'error'
-            ? 'Le testimonianze non sono ancora arrivate dal CMS. Puoi ritentare tra un momento.'
-            : 'Sto caricando le testimonianze.'}
-        </p>
-
-        {#if testimonialsState === 'error'}
-          <button
-            type="button"
-            class="mt-6 rounded-full bg-graphite px-5 py-3 font-bold text-white transition hover:opacity-90"
-            onclick={() => loadCmsContent({ force: true })}
-          >
-            Riprova a caricare le testimonianze
-          </button>
-        {/if}
+      <div class="mx-auto flex min-h-90 max-w-340 items-center justify-center rounded-4xl bg-bright-gold-500 lg:rounded-[3rem]">
+        <div
+          class="h-10 w-10 animate-spin rounded-full border-4 border-white/40 border-t-graphite"
+          aria-label="Caricamento"
+        ></div>
       </div>
     </Container>
   </Section>
