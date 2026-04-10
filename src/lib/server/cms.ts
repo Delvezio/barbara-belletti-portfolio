@@ -13,7 +13,10 @@ export type CmsPayload = {
   projects: Array<StrapiEntity<ProjectDTO>>;
   testimonials: TestimonialDTO[];
   ok: boolean;
+  source: 'live' | 'fallback';
 };
+
+let lastSuccessfulPayload: CmsPayload | null = null;
 
 export async function getCmsContent(): Promise<CmsPayload> {
   const [aboutRes, projectsRes, testimonialsRes] = await Promise.allSettled([
@@ -22,13 +25,38 @@ export async function getCmsContent(): Promise<CmsPayload> {
     fetchTestimonials(50)
   ]);
 
-  return {
+  const livePayload: CmsPayload = {
     about: aboutRes.status === 'fulfilled' ? aboutRes.value.data : null,
     projects: projectsRes.status === 'fulfilled' ? projectsRes.value.data : [],
     testimonials: testimonialsRes.status === 'fulfilled' ? testimonialsRes.value.data : [],
     ok:
       aboutRes.status === 'fulfilled' ||
       projectsRes.status === 'fulfilled' ||
-      testimonialsRes.status === 'fulfilled'
+      testimonialsRes.status === 'fulfilled',
+    source: 'live'
   };
+
+  if (livePayload.ok) {
+    const mergedPayload: CmsPayload = {
+      about: livePayload.about ?? lastSuccessfulPayload?.about ?? null,
+      projects: livePayload.projects.length ? livePayload.projects : (lastSuccessfulPayload?.projects ?? []),
+      testimonials: livePayload.testimonials.length
+        ? livePayload.testimonials
+        : (lastSuccessfulPayload?.testimonials ?? []),
+      ok: true,
+      source: 'live'
+    };
+
+    lastSuccessfulPayload = mergedPayload;
+    return mergedPayload;
+  }
+
+  if (lastSuccessfulPayload) {
+    return {
+      ...lastSuccessfulPayload,
+      source: 'fallback'
+    };
+  }
+
+  return livePayload;
 }
