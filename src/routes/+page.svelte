@@ -146,11 +146,15 @@
 {:else}
   <Section id="about">
     <Container>
-      <div class="flex min-h-90 items-center justify-center rounded-3xl bg-white/60">
-        <div
-          class="h-10 w-10 animate-spin rounded-full border-4 border-silver/40 border-t-neon-pink-500"
-          aria-label="Caricamento"
-        ></div>
+      <div class="flex min-h-90 flex-col items-center justify-center rounded-3xl bg-white/60 px-6 text-center">
+        <p class="text-fluid-2xl font-black tracking-tight text-graphite">Vuoi scoprire chi sono?</p>
+        <button
+          type="button"
+          class="mt-6 rounded-full bg-neon-pink-500 px-6 py-3 font-bold text-white transition hover:opacity-90"
+          onclick={() => loadCmsContent({ force: true })}
+        >
+          Scopri ora
+        </button>
       </div>
     </Container>
   </Section>
@@ -204,11 +208,19 @@
 {:else}
   <Section id="testimonials" className="relative isolate my-0">
     <Container padClass="px-0 md:px-12" className="z-10">
-      <div class="mx-auto flex min-h-90 max-w-340 items-center justify-center rounded-4xl bg-bright-gold-500 lg:rounded-[3rem]">
-        <div
-          class="h-10 w-10 animate-spin rounded-full border-4 border-white/40 border-t-graphite"
-          aria-label="Caricamento"
-        ></div>
+      <div class="mx-auto max-w-340 rounded-4xl bg-bright-gold-500 px-8 py-10 lg:rounded-[3rem] lg:px-20 lg:py-16">
+        <SectionTitle
+          overtitle="Dicono di me"
+          title="Le opinioni dei miei clienti"
+          customclass="max-w-2xl"
+        />
+        <button
+          type="button"
+          class="mt-8 rounded-full bg-graphite px-6 py-3 font-bold text-white transition hover:opacity-90"
+          onclick={() => loadCmsContent({ force: true })}
+        >
+          Leggi recensioni
+        </button>
       </div>
     </Container>
   </Section>
