@@ -1,30 +1,27 @@
 import type { PageServerLoad } from './$types';
 import { fetchAbout, fetchProjects, fetchTestimonials } from '$lib/services/strapi';
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+export const load: PageServerLoad = async ({ setHeaders }) => {
+  // Cache the rendered landing page briefly at the edge to reduce cold-start
+  // impact and avoid hitting Strapi on every single visit.
+  setHeaders({
+    'cache-control': 'public, max-age=0, s-maxage=300, stale-while-revalidate=600'
+  });
 
-async function retry<T>(fn: () => Promise<T>, attempts = 4): Promise<T | null> {
-  for (let i = 0; i < attempts; i++) {
-    try {
-      return await fn();
-    } catch {
-      if (i === attempts - 1) return null;
-      await sleep(1500 * (i + 1));
-    }
-  }
-  return null;
-}
-
-export const load: PageServerLoad = async () => {
-  const aboutRes = await retry(() => fetchAbout());
-  const projectsRes = await retry(() => fetchProjects(50));
-  const testimonialsRes = await retry(() => fetchTestimonials(50));
+  const [aboutRes, projectsRes, testimonialsRes] = await Promise.allSettled([
+    fetchAbout(),
+    fetchProjects(50),
+    fetchTestimonials(50)
+  ]);
 
   return {
-    about: aboutRes?.data ?? null,
-    projects: projectsRes?.data ?? [],
-    testimonials: testimonialsRes?.data ?? [],
-    loadError: !aboutRes && !projectsRes && !testimonialsRes
+    about: aboutRes.status === 'fulfilled' ? aboutRes.value.data : null,
+    projects: projectsRes.status === 'fulfilled' ? projectsRes.value.data : [],
+    testimonials: testimonialsRes.status === 'fulfilled' ? testimonialsRes.value.data : [],
+    loadError:
+      aboutRes.status === 'rejected' &&
+      projectsRes.status === 'rejected' &&
+      testimonialsRes.status === 'rejected'
       ? 'Errore fetch'
       : null
   };
