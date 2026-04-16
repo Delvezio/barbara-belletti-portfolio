@@ -1,14 +1,14 @@
 import type { PageServerLoad } from './$types';
 import { getCmsContent } from '$lib/server/cms';
 
-export const load: PageServerLoad = async ({ setHeaders }) => {
+export const prerender = true;
+
+export const load: PageServerLoad = async () => {
   const payload = await getCmsContent();
 
-  setHeaders({
-    'cache-control': payload.ok
-      ? 'public, max-age=0, s-maxage=300, stale-while-revalidate=600'
-      : 'no-store'
-  });
+  if (!payload.ok) {
+    throw new Error('Unable to prerender home page: no CMS content available from Strapi.');
+  }
 
   return payload;
 };
