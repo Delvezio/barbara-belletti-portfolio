@@ -14,7 +14,7 @@
 	let inView = false;
 	let timer: number | null = null;
 
-	const intervalMs = 2.7;
+	const intervalMs = 2700;
 
 	const prefersReducedMotion =
 		typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -28,9 +28,9 @@
 
 	function startAutoplay() {
 		if (prefersReducedMotion) return;
+		if (!canSlide()) return;
 		if (timer) return;
 		timer = window.setInterval(() => {
-			// avanza di 1 su mobile, di 3 su lg+
 			next();
 		}, intervalMs);
 	}
@@ -61,16 +61,28 @@
 
 	// 1 card su mobile, 3 su lg+
 	let cols = 1;
-	const updateCols = () => (cols = window.matchMedia('(min-width: 1024px)').matches ? 3 : 1);
+	const updateCols = () => {
+		cols = window.matchMedia('(min-width: 1024px)').matches ? 3 : 1;
+		index = Math.min(index, maxIndex());
 
-	const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
+		if (!canSlide()) {
+			stopAutoplay();
+		} else if (inView) {
+			startAutoplay();
+		}
+	};
+
 	const maxIndex = () => Math.max(0, items.length - cols);
+	const canSlide = () => items.length > cols;
 
 	function prev() {
-		index = clamp(index - cols, 0, maxIndex());
+		if (!canSlide()) return;
+		index = index === 0 ? maxIndex() : Math.max(index - cols, 0);
 	}
+
 	function next() {
-		index = clamp(index + cols, 0, maxIndex());
+		if (!canSlide()) return;
+		index = index >= maxIndex() ? 0 : Math.min(index + cols, maxIndex());
 	}
 </script>
 
@@ -103,30 +115,32 @@
 					customclass="max-w-2xl"
 				/>
 				<!-- controlli discreti (puoi anche nasconderli del tutto se non li vuoi) -->
-				<div class="mb-10 flex items-center justify-end gap-3">
-					<button
-						type="button"
-						class="rounded-full bg-white/40 px-4 py-2 text-sm font-bold text-graphite hover:bg-white/55 transition"
-						on:click={() => {
-							stopAutoplay();
-							prev();
-						}}
-						aria-label="Precedente"
-					>
-						←
-					</button>
-					<button
-						type="button"
-						class="rounded-full bg-white/40 px-4 py-2 text-sm font-bold text-graphite hover:bg-white/55 transition"
-						on:click={() => {
-							stopAutoplay();
-							next();
-						}}
-						aria-label="Successivo"
-					>
-						→
-					</button>
-				</div>
+				{#if canSlide()}
+					<div class="mb-10 flex items-center justify-end gap-3">
+						<button
+							type="button"
+							class="rounded-full bg-white/40 px-4 py-2 text-sm font-bold text-graphite hover:bg-white/55 transition"
+							on:click={() => {
+								stopAutoplay();
+								prev();
+							}}
+							aria-label="Precedente"
+						>
+							←
+						</button>
+						<button
+							type="button"
+							class="rounded-full bg-white/40 px-4 py-2 text-sm font-bold text-graphite hover:bg-white/55 transition"
+							on:click={() => {
+								stopAutoplay();
+								next();
+							}}
+							aria-label="Successivo"
+						>
+							→
+						</button>
+					</div>
+				{/if}
 
 				<!-- slider -->
 				<div class="overflow-hidden">
