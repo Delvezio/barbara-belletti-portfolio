@@ -69,7 +69,7 @@
 
             <!--  copyright  -->
             <div class="mt-14 border-t border-silver/60 pt-8 text-right text-xs text-graphite/60">
-            © {new Date().getFullYear()} barbaraBelletti.it — All rights reserved Made by
+            © {new Date().getFullYear()} bbelletti.it — All rights reserved Made by
             <a class="font-semibold text-graphite/70 hover:text-graphite transition" href="https://delvup.com/" target="_blank" rel="noreferrer">
                 DELVUP
             </a>
