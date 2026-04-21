@@ -2,7 +2,7 @@ const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function getJSON<T>(path: string, retries = 3): Promise<T> {
+async function getJSON<T>(path: string, retries = 7): Promise<T> {
   if (!STRAPI_URL) throw new Error('Missing VITE_STRAPI_URL in .env');
 
   const url = `${STRAPI_URL}${path}`;
@@ -10,7 +10,7 @@ async function getJSON<T>(path: string, retries = 3): Promise<T> {
 
   for (let attempt = 1; attempt <= retries; attempt++) {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
     try {
       const res = await fetch(url, {
@@ -22,7 +22,8 @@ async function getJSON<T>(path: string, retries = 3): Promise<T> {
 
       if (!res.ok) {
         const body = await res.text().catch(() => '');
-        throw new Error(`Strapi error ${res.status} ${res.statusText} — ${url} — ${body}`);
+        const excerpt = body.length > 500 ? `${body.slice(0, 500)}...` : body;
+        throw new Error(`Strapi error ${res.status} ${res.statusText} — ${url} — ${excerpt}`);
       }
 
       return (await res.json()) as T;
@@ -30,7 +31,7 @@ async function getJSON<T>(path: string, retries = 3): Promise<T> {
       lastError = error;
 
       if (attempt < retries) {
-        await sleep(attempt * 1200);
+        await sleep(Math.min(attempt * 2500, 10000));
         continue;
       }
     } finally {
